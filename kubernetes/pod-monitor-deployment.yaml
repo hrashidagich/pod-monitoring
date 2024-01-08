@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-monitor
+  labels:
+    app: pod-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-monitor
+  template:
+    metadata:
+      labels:
+        app: pod-monitor
+    spec:
+      serviceAccountName: pod-monitor-sa
+      containers:
+      - name: pod-monitor
+        image: your-docker-registry/pod-monitor:latest
+        env:
+          - name: MAX_RESTARTS
+            value: "2"
+          - name: EMAIL_ALERTS
+            value: "false"
